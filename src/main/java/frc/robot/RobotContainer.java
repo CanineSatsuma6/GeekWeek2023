@@ -4,12 +4,32 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DriveWithJoystick;
+import frc.robot.subsystems.Drive;
 
 public class RobotContainer 
 {
+    Joystick joystick;
+
+    Drive drive;
+
+    DriveWithJoystick driveWithJoystick;
+
     public RobotContainer() 
     {
+        joystick = new Joystick(0);
+
+        drive = new Drive();
+
+        driveWithJoystick = new DriveWithJoystick
+        (
+            drive,
+            () -> -joystick.getY(),
+            () -> -joystick.getX()
+        );
+
         switch (Constants.currentMode) 
         {
             // Real robot, instantiate hardware IO implementations
@@ -30,7 +50,7 @@ public class RobotContainer
 
     private void configureButtonBindings() 
     {
-        
+        drive.setDefaultCommand(driveWithJoystick);
     }
 
     public Command getAutonomousCommand() 
