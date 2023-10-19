@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PIDDreidel extends SubsystemBase
@@ -24,6 +25,8 @@ public class PIDDreidel extends SubsystemBase
         pot = new AnalogInput(0);
         pid = new PIDController(0.01, 0, 0);
 
+        motor.setInverted(true);
+
         pot.setAverageBits(2);
         pot.setOversampleBits(0);
 
@@ -32,7 +35,7 @@ public class PIDDreidel extends SubsystemBase
 
     public void spin()
     {
-
+        motor.set(-pid.calculate(getCurrentPotRotation(), getTarget()));
     }
 
     public double getTarget()
@@ -57,5 +60,20 @@ public class PIDDreidel extends SubsystemBase
         double m = 360.0 / 3994.0;
 
         return m * (x - 2);
+    }
+
+    public void gyroReset()
+    {
+        gyro.reset();
+    }
+
+    public Command pointWithDreidel()
+    {
+        return this.run(this::spin);
+    }
+
+    public Command resetDreidel()
+    {
+        return this.runOnce(this::gyroReset);
     }
 }
