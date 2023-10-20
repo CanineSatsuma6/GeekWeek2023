@@ -35,7 +35,7 @@ public class PIDDreidel extends SubsystemBase
 
     public void spin()
     {
-        motor.set(-pid.calculate(getCurrentPotRotation(), getTarget()));
+        motor.set(pid.calculate(getCurrentPotRotation(), getTarget()));
     }
 
     public double getTarget()

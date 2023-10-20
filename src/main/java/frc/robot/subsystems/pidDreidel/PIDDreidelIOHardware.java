@@ -22,9 +22,38 @@ public class PIDDreidelIOHardware implements PIDDreidelIO
         pot.setOversampleBits(0);
     }
 
-    public void updateInputs(PIDDreidelIOInputs inputs) {}
+    public void updateInputs(PIDDreidelIOInputs inputs)
+    {
+        inputs.currentPotRotation = getCurrentPotRotation();
+        inputs.currentRobotRotation = getCurrentRobotRotation();
+    }
 
-    public void setMotor(double speed) {}
+    public void setMotor(double speed)
+    {
+        motor.set(speed);
+    }
 
-    public void resetGyro() {}
+    public void resetGyro()
+    {
+        gyro.reset();
+    }
+
+    public double getCurrentRobotRotation()
+    {
+        return Math.IEEEremainder(-gyro.getAngle(), 360);
+    }
+
+    public double getCurrentPotRotation()
+    {
+        // y = m(x - x1) + y1
+
+        double x = pot.getAverageValue(); // x
+
+        // (x1, y1) = (3996, 360)
+        // (x2, y2) = (2, 0)
+
+        double m = 360.0 / 3994.0;
+
+        return m * (x - 2);
+    }
 }
