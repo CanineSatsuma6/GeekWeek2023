@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.PIDDreidel;
+import frc.robot.subsystems.pidDreidel.PIDDreidel;
+import frc.robot.subsystems.pidDreidel.PIDDreidelIOHardware;
 
 public class RobotContainer 
 {
@@ -27,7 +28,7 @@ public class RobotContainer
         buttonY = new JoystickButton(joystick, 4);
 
         drive = new Drive();
-        pidDreidel = new PIDDreidel();
+        pidDreidel = new PIDDreidel(new PIDDreidelIOHardware());
 
         driveWithJoystick = new DriveWithJoystick
         (

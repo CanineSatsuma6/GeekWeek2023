@@ -40,7 +40,7 @@ public class PIDDreidelIOHardware implements PIDDreidelIO
 
     public double getCurrentRobotRotation()
     {
-        return Math.IEEEremainder(-gyro.getAngle(), 360);
+        return Math.IEEEremainder(-gyro.getAngle(), 360) + 180;
     }
 
     public double getCurrentPotRotation()
